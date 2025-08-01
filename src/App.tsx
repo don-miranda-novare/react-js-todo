@@ -11,13 +11,6 @@ const Todo = React.lazy(() => import('./pages/Todo/Todo'));
 const Profile = React.lazy(() => import('./pages/Profile'));
 const NotFound = React.lazy(() => import('./pages/NotFound'));
 
-// if ('serviceWorker' in navigator && 'SyncManager' in window) {
-//   navigator.serviceWorker.register('/service-worker.js')
-//     .then(() => console.log('Service Worker Registered'))
-//     .catch((err) => console.error('Service Worker Error:', err));
-// }
-
-
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js', { type: 'module' })
