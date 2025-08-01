@@ -63,28 +63,16 @@ export const Profile = () => {
     };
 
     const onSubmit = async (data: ProfileFormData) => {
-        updateIndexedDb(data);
+        await updateIndexedDb(data);
 
         if ('serviceWorker' in navigator && 'SyncManager' in window) {
-            // try {
-            //     const registration = await navigator.serviceWorker.ready;
-            //     await registration.sync.register('profileSyncTag');
-            //     console.log('Profile sync registered');
-            // } catch (error) {
-            //     console.error('Profile sync failed', error);
-            // }
-            
-            // navigator.serviceWorker.register('/service-worker.js')
-            // .then((registration) => {
-            //     console.log('Service Worker registered with scope:', registration.scope);
-            // })
-            // .catch((error) => {
-            //     console.error('Service Worker registration failed:', error);
-            // });
-
-            const registration = await navigator.serviceWorker.ready;
-            await registration.sync.register('profile-sync');
-            console.log('Profile sync registered');
+            try {
+                const registration = await navigator.serviceWorker.ready;
+                await registration.sync.register('profile-sync');
+                console.log('Profile sync registered');
+            } catch (error) {
+                console.error('Profile sync failed', error);
+            }
         }
     };
 
