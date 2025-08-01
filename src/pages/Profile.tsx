@@ -37,6 +37,7 @@ export const Profile = () => {
 
     const getProfile = async () => {
         const querySnapshot = await getDocs(profileCollection);
+        console.log(querySnapshot.docs[0].data());
         const profiles = {
             id: querySnapshot.docs[0].id,
             position: querySnapshot.docs[0].data().position,
@@ -51,7 +52,7 @@ export const Profile = () => {
         const db = new MyDB();
         db.profile.toArray().then(async (profiles) => {
             if (profiles.length > 0) {
-                await db.profile.update(profiles[0].id, data);
+                await db.profile.update(profiles[0].id, {...data, id: profiles[0].id});
                 setSnackbarMessage(`Profile updated: ${profiles[0].id}`);
             } else {
                 await db.profile.add(data);

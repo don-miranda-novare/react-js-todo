@@ -10,17 +10,18 @@ export async function processSync() {
   // TODO: Fetch stored profile data from IndexedDB here
   const db = new MyDB();
   const profiles = await db.profile.toArray();
-  console.log('Background sync: uploading profile to Firestore', profiles);
 
+  const documentId = profiles[0].id;
   const newProfile = {
-    position: profiles[0].position,
-    email: profiles[0].email,
-    address: profiles[0].address,
+    fields: {
+        position: { stringValue: profiles[0].position },
+        email: { stringValue: profiles[0].email },
+        address: { stringValue: profiles[0].address },
+      }
   };
-
   // Then write to Firestore via fetch or Firebase REST API
-  await fetch('https://firestore.googleapis.com/v1/projects/react-js-todo-8f859/databases/(default)/documents/profile', {
-    method: 'POST',
+  await fetch(`https://firestore.googleapis.com/v1/projects/react-js-todo-8f859/databases/(default)/documents/profile/${documentId}`, {
+    method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
